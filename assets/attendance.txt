@@ -1,0 +1,11 @@
+Rank,School,G,Attendance,Average
+1,Syracuse,18,472550,26253
+2,Kentucky,18,413350,22964
+3,Louisville,18,383070,21282
+4,North Carolina,18,324458,18025
+5,Creighton,16,286329,17896
+6,Indiana,18,312453,17359
+7,Wisconsin,17,290773,17104
+8,Ohio St.,20,329481,16474
+9,Kansas,16,262993,16437
+10,Memphis,18,290183,16121
