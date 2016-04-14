@@ -19,7 +19,7 @@ d3.csv("../uncont_elections.csv", function(err, data) {
       if (err) throw error;
 
       var scaleX = d3.scale.ordinal()
-          .rangeRoundBands([0, width], 0.4);
+          .rangeRoundBands([0, width], .6);
 
       // var scaleX2 = d3.scale.ordinal()
       //     .domain(data.map(function(d){return d.year }))
@@ -85,17 +85,21 @@ svg.append('g')
     .attr('class', 'y axis')
     .call(yAxis);
 
-var repubs = svg.append('g')
-    .attr('class', 'repubs');
+var repubs = svg.selectAll('.repubs')
+    .data(data)
+  .enter().append('g')
+    .attr('class', 'repubs')
+    .attr('transform', function(d){ return 'translate(' + eval(scaleX(d.year) + scaleX.rangeBand()) +  ',0)';});
+
 
 repubs.selectAll('rect')
-    .data(data)
+    .data(function(d) {return d.repubs; })
   .enter().append('rect')
     .attr('width', scaleX.rangeBand())
     .attr('x', function(d){ return scaleX(Number(d.year)); })
     .attr('y', function(d){ return scaleYRepub(d.value); })
     .attr('height', function(d) { return height - scaleYRepub(d.value); })
-    .attr('fill', function(d) { return color(d.name); });
+    .attr('fill', function(d) { return color(d.value); });
 
 
 var year = svg.selectAll('.year')
