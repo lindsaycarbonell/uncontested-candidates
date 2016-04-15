@@ -1,6 +1,6 @@
-election_date,year,office,total_seats,uncont_dems,uncont_repubs
-11/5/2005,2006,senate,50,5,5
-11/4/08,2008,senate,50,10,10
-11/2/10,2010,senate,50,1,11
-11/6/12,2012,senate,50,6,16
-11/4/14,2014,senate,50,9,11
+election_date,year,office,uncont_dems,uncont_repubs
+11/5/2005,2006,senate,5,5
+11/4/08,2008,senate,10,10
+11/2/10,2010,senate,1,11
+11/6/12,2012,senate,6,16
+11/4/14,2014,senate,9,11
