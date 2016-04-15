@@ -19,7 +19,7 @@ d3.csv("../uncont_elections.csv", function(err, data) {
       if (err) throw error;
 
       var scaleX = d3.scale.ordinal()
-          .rangeRoundBands([0, width], .6);
+          .rangeRoundBands([0, width/2], .6);
 
       // var scaleX2 = d3.scale.ordinal()
       //     .domain(data.map(function(d){return d.year }))
@@ -85,81 +85,89 @@ scaleY.domain([0, d3.max(data, function(d) {
 
 
 //
-// svg.append('g')
-//     .attr('class', 'x axis')
-//     .attr('transform', 'translate(0, ' + height + ')')
-//     .call(xAxis);
+svg.append('g')
+    .attr('class', 'x axis')
+    .attr('transform', 'translate(0, ' + height + ')')
+    .call(xAxis);
 
 svg.append('g')
     .attr('class', 'y axis')
     .call(yAxis);
 
-var repubs = svg.selectAll('.repubs')
+// var repubs = svg.selectAll('.repubs')
+//     .data(data)
+//   .enter().append('g')
+//     .attr('class', 'repubs')
+//     .attr('transform', function(d){ return 'translate(' + eval(scaleX(d.year) + scaleX.rangeBand()) +  ',0)';});
+
+
+var repubs = svg.selectAll('rect')
+  //.data(function(d) {return d.repubs; })
     .data(data)
   .enter().append('g')
     .attr('class', 'repubs')
-    .attr('transform', function(d){ return 'translate(' + eval(scaleX(d.year) + scaleX.rangeBand()) +  ',0)';});
-
-
-repubs.selectAll('rect')
-  //.data(function(d) {return d.repubs; })
-  .data(data)
-  .enter().append('rect')
+    .attr('transform', function(d){ return 'translate(' + eval(scaleX(d.year) ) +  ',0)';})
+    .append('rect')
     .attr('width', scaleX.rangeBand())
-    .attr('x', function(d){ return scaleX(Number(d.year)); })
+    .attr('x', function(d){ return scaleX(Number(d.year)) - scaleX.rangeBand(); })
     //.attr('y', function(d){ return scaleY(d.value); })
-    .attr('y', function(d) {console.log(d.uncont_dems); return scaleY(d.uncont_dems)})
+    .attr('y', function(d) { return scaleY(d.uncont_repubs); })
     //.attr('height', function(d) { return height - scaleY(d.value); })
-    .attr('height', function(d) { return height - scaleY(d.uncont_dems); })
+
+    .attr('height', function(d) { return height - scaleY(d.uncont_repubs); })
+    //.attr('height', 35);
     .attr('fill', 'red' );
 
 //DEMS
-var dems = svg.selectAll('.dems')
+// var dems = svg.selectAll('.dems')
+//     .data(data)
+//   .enter().append('g')
+//     .attr('class', 'dems')
+//     .attr('transform', function(d){ return 'translate(' + eval(scaleX(d.year)) + ',0)';});
+
+
+// var dems = svg.selectAll('rect');
+
+var demGroup = svg.append('g');
+    //.data(function(d) { return d.dems; })
+
+demGroup.selectAll('rect')
     .data(data)
   .enter().append('g')
     .attr('class', 'dems')
-    .attr('transform', function(d){ return 'translate(' + eval(scaleX(d.year)) + ',0)';});
-
-dems.selectAll('rect')
-    //.data(function(d) { return d.dems; })
-    .data(data)
-  .enter().append('rect')
+    .attr('transform', function(d){ return 'translate(' + eval(scaleX(d.year)) + ',0)';})
+    .append('rect')
     .attr('width', scaleX.rangeBand())
-    .attr('x', function(d){ return scaleX(Number(d.year)); })
+    .attr('x', function(d){ console.log('x'); return scaleX(Number(d.year)) - scaleX.rangeBand(); })
     //.attr('y', function(d){ return scaleY(d.value); })
-    .attr('y', function(d){ return scaleY(d.uncont_repubs); })
+    .attr('y', function(d){ return scaleY(d.uncont_dems); })
     //.attr('height', function(d) { return height - scaleY(d.value); })
-    .attr('height', function(d) { return height - scaleY(d.uncont_repubs); })
+    .attr('height', function(d) { return height - scaleY(d.uncont_dems); })
     .attr('fill', 'blue' );
 
-// year.selectAll('rect')
-//     .data(function(d) { return d.repubs; })
-//   .enter().append('rect')
-//     .attr('width', scaleX.rangeBand())
-//     .attr('x', function(d){ return scaleX(Number(d.year)); })
-//     .attr('y', function(d){ return scaleYRepub(d.value); })
-//     .attr('height', function(d) { return height - scaleYRepub(d.value); })
-//     .attr('fill', function(d) { return color(d.name); });
 
 
-var legendRepub = svg.selectAll(".legend")
-      .data(dems.slice().reverse())
-    .enter().append("g")
-      .attr("class", "legend")
-      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
-  legendRepub.append("rect")
-      .attr("x", width - 18)
-      .attr("width", 18)
-      .attr("height", 18)
-      .style("fill", 'red');
 
-  legendRepub.append("text")
-      .attr("x", width - 24)
-      .attr("y", 9)
-      .attr("dy", ".35em")
-      .style("text-anchor", "beginning")
-      .text('Republican');
+
+// var legendRepub = svg.selectAll(".legend")
+//       .data(dems.slice().reverse())
+//     .enter().append("g")
+//       .attr("class", "legend")
+//       .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+//
+//   legendRepub.append("rect")
+//       .attr("x", width - 18)
+//       .attr("width", 18)
+//       .attr("height", 18)
+//       .style("fill", 'red');
+//
+//   legendRepub.append("text")
+//       .attr("x", width - 24)
+//       .attr("y", 9)
+//       .attr("dy", ".35em")
+//       .style("text-anchor", "beginning")
+//       .text('Republican');
 
 
 
