@@ -9,8 +9,8 @@ var svg = d3.select('.container').append('svg')
     .append('g')
     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    var color = d3.scale.ordinal()
-    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+    // var color = d3.scale.ordinal()
+    // .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
 
 
@@ -28,8 +28,6 @@ d3.csv("../uncont_elections.csv", function(err, data) {
       var scaleY = d3.scale.linear()
           .range([height, 0]);
 
-      var scaleYRepub = d3.scale.linear()
-          .range([height, 0]);
 
       var xAxis = d3.svg.axis()
           .scale(scaleX)
@@ -44,42 +42,53 @@ d3.csv("../uncont_elections.csv", function(err, data) {
 
 
 
+
+
 // scaleX.domain(data.map(function(d) {  return d.year }));
 // scaleY.domain([0, d3.max(data, function(d) { return d.open_seats; }) + 0.1]);
-
+//console.log(data[0]);
 var demKeys = d3.keys(data[0]).filter(function(key) { return key == "uncont_dems"; });
+
 var repubKeys = d3.keys(data[0]).filter(function(key) { return key == "uncont_repubs"; });
 
 
 
-
+data_dems=[];
+data_repubs=[];
 data.forEach(function(d){
+
   //d.total_unconts = eval(Number(d.uncont_dems) + Number(d.uncont_repubs));
   d.dems = demKeys.map(function(key) { return {value: +d[key]}; });
+//  console.log(typeof d.dems);
   d.repubs = repubKeys.map(function(key) { return {value: +d[key]}; });
   //d.ages = ageNames.map(function(name) { return {name: name, value: +d[name]}; });
 
+  data_dems.push(Number(d.uncont_dems));
+  data_repubs.push(Number(d.uncont_repubs));
 
 });
+
+//console.log(data_dems);
 
 scaleX.domain(data.map(function(d) {
   return Number(d.year);
 }));
 
 scaleY.domain([0, d3.max(data, function(d) {
-  return d3.max(d.dems, function(d){ return d.value; });
-})]);
-
-scaleYRepub.domain([0, d3.max(data, function(d) {
   return d3.max(d.repubs, function(d){ return d.value; });
+  //return d3.max(data_repubs, function(d){ return d.value; });
 })]);
 
+// scaleYRepub.domain([0, d3.max(data, function(d) {
+//   return d3.max(d.repubs, function(d){ return d.value; });
+// })]);
 
 
-svg.append('g')
-    .attr('class', 'x axis')
-    .attr('transform', 'translate(0, ' + height + ')')
-    .call(xAxis);
+//
+// svg.append('g')
+//     .attr('class', 'x axis')
+//     .attr('transform', 'translate(0, ' + height + ')')
+//     .call(xAxis);
 
 svg.append('g')
     .attr('class', 'y axis')
@@ -93,29 +102,35 @@ var repubs = svg.selectAll('.repubs')
 
 
 repubs.selectAll('rect')
-    .data(function(d) {return d.repubs; })
+  //.data(function(d) {return d.repubs; })
+  .data(data)
   .enter().append('rect')
     .attr('width', scaleX.rangeBand())
     .attr('x', function(d){ return scaleX(Number(d.year)); })
-    .attr('y', function(d){ return scaleYRepub(d.value); })
-    .attr('height', function(d) { return height - scaleYRepub(d.value); })
-    .attr('fill', function(d) { return color(d.value); });
+    //.attr('y', function(d){ return scaleY(d.value); })
+    .attr('y', function(d) {console.log(d.uncont_dems); return scaleY(d.uncont_dems)})
+    //.attr('height', function(d) { return height - scaleY(d.value); })
+    .attr('height', function(d) { return height - scaleY(d.uncont_dems); })
+    .attr('fill', 'red' );
 
-
-var year = svg.selectAll('.year')
+//DEMS
+var dems = svg.selectAll('.dems')
     .data(data)
   .enter().append('g')
-    .attr('class', 'year')
-    .attr('transform', function(d){ return 'translate(' + scaleX(d.year) + ',0)';});
+    .attr('class', 'dems')
+    .attr('transform', function(d){ return 'translate(' + eval(scaleX(d.year)) + ',0)';});
 
-year.selectAll('rect')
-    .data(function(d) { return d.dems; })
+dems.selectAll('rect')
+    //.data(function(d) { return d.dems; })
+    .data(data)
   .enter().append('rect')
     .attr('width', scaleX.rangeBand())
     .attr('x', function(d){ return scaleX(Number(d.year)); })
-    .attr('y', function(d){ return scaleY(d.value); })
-    .attr('height', function(d) { return height - scaleY(d.value); })
-    .attr('fill', function(d) { return color(d.name); });
+    //.attr('y', function(d){ return scaleY(d.value); })
+    .attr('y', function(d){ return scaleY(d.uncont_repubs); })
+    //.attr('height', function(d) { return height - scaleY(d.value); })
+    .attr('height', function(d) { return height - scaleY(d.uncont_repubs); })
+    .attr('fill', 'blue' );
 
 // year.selectAll('rect')
 //     .data(function(d) { return d.repubs; })
@@ -126,6 +141,25 @@ year.selectAll('rect')
 //     .attr('height', function(d) { return height - scaleYRepub(d.value); })
 //     .attr('fill', function(d) { return color(d.name); });
 
+
+var legendRepub = svg.selectAll(".legend")
+      .data(dems.slice().reverse())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legendRepub.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", 'red');
+
+  legendRepub.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "beginning")
+      .text('Republican');
 
 
 
