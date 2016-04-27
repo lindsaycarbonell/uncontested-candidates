@@ -1,16 +1,13 @@
 
 var margin = {top: 20, right: 20, bottom: 30, left: 40};
-var width = 1000 - margin.left - margin.right;
-var height = 700 - margin.top - margin.bottom;
+var width = 800 - margin.left - margin.right;
+var height = 350 - margin.top - margin.bottom;
 
-var svg = d3.select('.container').append('svg')
+var svg = d3.select('.append').append('svg')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
-
-
 
 
 d3.csv("../../assets/uncont_elections.csv", function(err, data) {
@@ -21,7 +18,7 @@ d3.csv("../../assets/uncont_elections.csv", function(err, data) {
 
       var scaleX2 = d3.scale.ordinal()
           .domain(data.map(function(d){return d.year }))
-          .rangeRoundBands([0, width], 0.4);
+          .rangeRoundBands([0, width], .6);
 
       var scaleY = d3.scale.linear()
           .range([height, 0]);
@@ -40,22 +37,13 @@ d3.csv("../../assets/uncont_elections.csv", function(err, data) {
           .ticks(10);
 
 
-
-
-// scaleX.domain(data.map(function(d) {  return d.year }));
-// scaleY.domain([0, d3.max(data, function(d) { return d.open_seats; }) + 0.1]);
-
 var demKeys = d3.keys(data[0]).filter(function(key) { return key == "uncont_dems"; });
 var repubKeys = d3.keys(data[0]).filter(function(key) { return key == "uncont_repubs"; });
 
 
-
-
 data.forEach(function(d){
-  //d.total_unconts = eval(Number(d.uncont_dems) + Number(d.uncont_repubs));
   d.dems = demKeys.map(function(key) { return {value: +d[key]}; });
   d.repubs = repubKeys.map(function(key) { return {value: +d[key]}; });
-  //d.ages = ageNames.map(function(name) { return {name: name, value: +d[name]}; });
 
 
 });
@@ -69,9 +57,15 @@ scaleX2.domain(data.map(function(d) {
 }));
 
 
-
 scaleY.domain([0, d3.max(data, function(d) {
-  return d3.max(d.dems, function(d){ return d.value; });
+  var repubMax = d3.max(d.repubs);
+  var demMax = d3.max(d.dems);
+  if(repubMax > demMax){
+    return d3.max(d.repubs, function(d){ return d.value; });
+  } else {
+    return d3.max(d.dems, function(d){ return d.value; });
+  }
+
 })]);
 
 scaleYRepub.domain([0, d3.max(data, function(d) {
@@ -84,8 +78,6 @@ var xAxisElement = svg.append('g')
     .attr('class', 'x axis')
     .attr('transform', 'translate(0, ' + height + ')')
     .call(xAxis);
-
-
 
 svg.append('g')
     .attr('class', 'y axis')
@@ -104,39 +96,51 @@ var repubs = svg.selectAll('.repubs')
     .attr('transform', function(d){ return 'translate(' + eval(scaleX(d.year) + scaleX.rangeBand()) +  ',0)';});
 
 
+
 repubs.selectAll('rect')
     .data(function(d) {return d.repubs; })
   .enter().append('rect')
     .attr('width', scaleX.rangeBand())
     .attr('x', function(d){ return scaleX(Number(d.year)); })
-    .attr('y', function(d){ return scaleYRepub(d.value); })
-    .attr('height', function(d) { return height - scaleYRepub(d.value); })
-    .attr('fill', 'red');
+    .attr('y', function(d){ return scaleY(d.value); })
+    .attr('height', function(d) { return height - scaleY(d.value); })
+    .attr('fill', '#E91D0E');
+
+repubs.append("text")
+    .text(function(d){ return d.repubs[0].value; })
+    .attr("class", function(d){if(d.repubs[0].value <=2){return "short-repub"}else { return "tall-repub"}})
+    .attr("x", function(d){ return 28; })
+    .attr("y", function(d){ console.log(d); return scaleY(d.repubs[0].value) + 20; })
+    .attr("text-anchor", "middle");
 
 
-var year = svg.selectAll('.year')
+var dems = svg.selectAll('.dems')
     .data(data)
   .enter().append('g')
-    .attr('class', 'year')
+    .attr('class', 'dems')
     .attr('transform', function(d){ return 'translate(' + scaleX(d.year) + ',0)';});
 
-year.selectAll('rect')
+dems.selectAll('rect')
     .data(function(d) { return d.dems; })
   .enter().append('rect')
     .attr('width', scaleX.rangeBand())
     .attr('x', function(d){ return scaleX(Number(d.year)); })
     .attr('y', function(d){ return scaleY(d.value); })
     .attr('height', function(d) { return height - scaleY(d.value); })
-    .attr('fill', 'blue');
+    .attr('fill', '#232066');
 
-// year.selectAll('rect')
-//     .data(function(d) { return d.repubs; })
-//   .enter().append('rect')
-//     .attr('width', scaleX.rangeBand())
-//     .attr('x', function(d){ return scaleX(Number(d.year)); })
-//     .attr('y', function(d){ return scaleYRepub(d.value); })
-//     .attr('height', function(d) { return height - scaleYRepub(d.value); })
-//     .attr('fill', function(d) { return color(d.name); });
+dems.append("text")
+    .text(function(d){ return d.dems[0].value; })
+    .attr("class", function(d){if(d.dems[0].value <=2){return "short-dem"}else { return "tall-dem"}})
+    .attr("x", function(d){ return 28; })
+    .attr("y", function(d){
+      console.log(d.dems[0].value);
+      if(d.dems[0].value <=2){
+      return scaleY(d.dems[0].value) - 3;}
+      else {return scaleY(d.dems[0].value) + 20; }})
+    .attr("text-anchor", "middle");
+
+
 
 
 

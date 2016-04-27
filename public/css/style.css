@@ -23,6 +23,46 @@ h1{
   max-width:1100px;
 }
 
+
+.repubs:hover, .dems:hover{
+  opacity:.7;
+}
+
+.short-dem, .tall-dem{
+  opacity:0;
+}
+
+g.dems:hover .short-dem {
+  opacity:1;
+  fill:black;
+}
+
+g.dems:hover .tall-dem{
+  opacity:1;
+  fill:white;
+}
+
+.short-repub, .tall-repub{
+  opacity:0;
+}
+
+g.repubs:hover .short-repub {
+  opacity:1;
+  fill:black;
+}
+
+g.repubs:hover .tall-repub{
+  opacity:1;
+  fill:white;
+}
+
+.append{
+  border: solid 1px #eee;
+  border-bottom: solid 1px #ccc;
+  padding:20px;
+}
+
+
 p{
   font-size:15pt;
   text-align:left;
