@@ -8,7 +8,8 @@
 <script src="public/js/jquery-2.2.0.min.js"></script>
 <!--d3-->
 <script src="public/js/d3.min.js"></script>
-
+<!--bootstrap js-->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <!--angular js-->
 <script src="public/js/angular.js"></script>
@@ -26,7 +27,7 @@
 <link rel="stylesheet" href="public/css/style.css" />
 
 <style>
-#map{ height: 180px; }
+#map{ height:325px; }
 </style>
 
 </head>
@@ -38,18 +39,25 @@
   <h1 style="text-align:center;">Uncontested Seats in the N.C. General Assembly</h1>
 
 
-
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-1 col-xs-1"></div>
+      <div class="col-lg-10 col-xs-10">
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#chart">Chart</a></li>
+          <li><a data-toggle="tab" href="#table">Table</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-1 col-xs-1"></div>
+    </div>
+  </div>
 
 
   <div class="container">
     <div class="row">
       <div class="col-lg-1 col-xs-1"></div>
-      <div class="append col-lg-10 col-xs-10">
-        <ul class="nav nav-tabs">
-          <li class="active"><a href="#">Chart</a></li>
-          <li><a href="#">Table</a></li>
-        </ul>
-      </div>
+      <div id="chart" class="append col-lg-10 col-xs-10 tab-pane fade in active"></div>
+      <div id="table" class="col-lg-10 col-xs-10 tab-pane fade">table</div>
       <div class="col-lg-1 col-xs-1"></div>
     </div>
   </div>
@@ -98,41 +106,115 @@
 <script>
 $(document).ready(function(){
 
-  var map = L.map('map').setView([35.779590, -78.638179], 5);
+
+  var map = L.map('map').setView([35.216173, -78.936768], 7);
 
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 
-  console.log(geojsonFeatures);
+  //console.log(geojsonFeatures);
 
   // L.geoJson(geojsonFeature).addTo(map);
 
 
       var districtStyle = {
           "color": "#ff7800",
-          "weight": 5,
+          "weight": 2,
           "opacity": 0.65
+      };
+
+      var newStyle = {
+        "color":"blue",
+        "weight": 2
       };
 
       function onEachFeature(feature, layer) {
         layer.setStyle(districtStyle);
+
+
       };
 
+      makeDistricts();
+      styleDistricts();
+
       function makeDistricts(){
+
         L.geoJson(geojsonFeatures, {
             onEachFeature: onEachFeature
           }).addTo(map);
-      };
+      }; //make
+
+      function styleDistricts(){
+        L.geoJson(geojsonFeatures, {
+        style: function(feature) {
+
+          switch (feature.properties.District) {
+              case 3: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 4: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 5: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 13: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 14: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 16: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 20: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 21: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 22: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 23: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 28: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 32: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 37: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 38: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 40: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 49: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              default: return {
+                "color": "red",
+                "weight": 2,
+                "opacity": 0.65 };
+            }
+          }
+        }).addTo(map);
+      }; //style
 
 
 
 });
 
 </script>
-<script src="Senate_4326.geojson"></script>
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-<script src="public/js/d3-bar.js"></script>
+<script src="Senate_4326.geojson"></script>
+<!-- <script src="public/js/d3-bar.js"></script> -->
 </body>
 
 </html>

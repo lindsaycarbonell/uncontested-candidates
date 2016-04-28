@@ -77,6 +77,14 @@ p{
   font-weight:bold;
 }
 
+/*this should fade it or something idk*/
+svg{
+  transition: opacity .25s ease-in-out;
+  -moz-transition: opacity .25s ease-in-out;
+  -webkit-transition: opacity .25s ease-in-out;
+}
+
+
 footer{
   text-align:center;
 }
