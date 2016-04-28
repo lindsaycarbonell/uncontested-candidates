@@ -1,54 +1,11 @@
 <html>
     <head>
           <title>583 Final Project</title>
-           
+
 <link rel="stylesheet" href="css/styles.css" />
  <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
     </head>
 
-<body ng-app="myApp" ng-controller="BaseController as base">
-    
- <h1>Hello, insomnia!</h1>
-
-
-<div ng-controller="NationsController as nationCtrl">
-  <ul>
-    <li ng-repeat="nation in nationCtrl.nations">{{nation.id}} {{nation.population}} {{nation.agriculture}}</li>
-  </ul> 
-</div>
-
-<div id="chart"></div>
-<div id="summary"></div>
-
-<div id="dropdown">
-<form id="target">
- <div class="menu-1">
-  <select class="xOptions">
-    <option value="d.coastline">Coastline</option>
-    <option value="d.agriculture">Agriculture</option>
-    <option value="d.population">Population</option>
-  </select>
- </div>
- <div class="menu-2">
-   <select class="yOptions">
-    <option value="d.coastline">Coastline</option>
-    <option value="d.agriculture">Agriculture</option>
-    <option value="d.population">Population</option>
-  </select>
- </div>
- <div>
-  <input type="submit">
- </div>
-</form>
-</div>
-
-
-
- <script type="text/javascript" src="js/angular.js"></script>
- <script type="text/javascript" src="js/app.js"></script>
- <script type="text/javascript" src="js/nations.js"></script>
- <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
- <script src="js/chart.js"></script>
 
     </body>
 </html>

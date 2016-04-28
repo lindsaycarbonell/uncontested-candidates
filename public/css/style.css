@@ -68,6 +68,15 @@ p{
   text-align:left;
 }
 
+.tiny-text{
+  font-size:10pt;
+  margin-top:-5pt;
+}
+
+.strong{
+  font-weight:bold;
+}
+
 footer{
   text-align:center;
 }
