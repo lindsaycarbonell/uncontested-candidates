@@ -3,6 +3,18 @@ var app = angular.module('mainApp', []);
 app.controller('MainController', [('$http'), function($http) {
 
 
+  var _this = this;
+  this.all_elections = [];
+
+
+  $http.get('public/js/uncont_elections.json')
+    .success(function(allElectionsData){
+      _this.all_elections = allElectionsData;
+      console.log(allElectionsData);
+    })
+    .error(function(msg){
+      console.log("Elections request failed. \n" + msg);
+    });
 
   //path needs to change to change graph
   var path = "../../assets/uncont_elections.csv";
@@ -211,18 +223,7 @@ legend.append('text')
 
 app.controller('TableController', [('$http'), function($http) {
 
-  var _this = this;
-  this.all_elections = [];
 
-
-$http.get('public/js/uncont_elections.json')
-    .success(function(allElectionsData){
-      _this.all_elections = allElectionsData;
-      console.log(allElectionsData);
-    })
-    .error(function(msg){
-      console.log("Elections request failed. \n" + msg);
-    });
 
 
 }]);

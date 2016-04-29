@@ -51,8 +51,7 @@
           <li><a data-toggle="tab" href="#table" ng-click="main.switchTab()">Table</a></li>
         </ul>
         <div class="row">
-          <h1 class="graph-title" ng-show="main.isChartChosen">Uncontested Seats in the N.C. General Assembly</h1>
-
+          <h1 class="graph-title">Uncontested Seats in the N.C. General Assembly</h1>
         </div>
       </div>
       <div class="col-lg-1 col-xs-1"></div>
@@ -60,16 +59,17 @@
   </div>
 
 
-  <div class="container" ng-controller="TableController as table" ng-app="tableApp">
+  <div class="container">
     <div class="row">
       <div class="col-lg-1 col-xs-1"></div>
       <div id="chart" ng-show="main.isChartChosen" class="append col-lg-10 col-xs-10 tab-pane fade in active"></div>
-      <div id="table" class="col-lg-10 col-xs-10 tab-pane fade">
-        <table id="elections-table" class="table">
+      <div id="table" ng-show="!main.isChartChosen" class="col-lg-10 col-xs-10 tab-pane fade">
+        <table id="elections-table" class="table table-striped table-sm table-reflow">
           <thead>
-            <th>Election Year <i class="fa fa-arrows-v"></i></th>
-            <th>Uncontested Democrat Seats</th>
-            <th>Uncontested Republican Seats</th>
+            <th>Election Year</th>
+            <th>Office</th>
+            <th>Democrat Seats</th>
+            <th>Republican Seats</th>
           </thead>
 
           <tr ng-repeat="elections in main.all_elections">
@@ -91,7 +91,7 @@
 <h5 class="byline"><span class="by">By</span> Lindsay Carbonell</h5>
 
 
-<p>In the past decade, North Carolina voters have had less and less choice over who represents them in the state legislature.</p>
+<p>In the past decade, North Carolina voters have had less and less power over who represents them in the state legislature.</p>
 
 <p> From 2000 to 2012, the number of uncontested seats — those guaranteed to one candidate before voting even begins — in the N.C. General Assembly increased by 47.3 percent.</p>
 <!--41/(120 + 50) = .2412 ~= 24 percent
@@ -175,7 +175,7 @@ said Matt Plaus, a senior at UNC-Chapel Hill.</p>
 <p>“There’s going to be a lot of people coming out to vote against Trump, and that could put a lot of seats into play,” Miranda said.</p>
 
 
-<p style="font-style:italic;">Writer's note: The NCGOP and Civitas Institute were contacted but could not make speak to me before the story deadline.</p>
+<p style="font-style:italic;">Writer's note: The N.C. GOP and Civitas Institute were contacted but could not speak to me before the story deadline.</p>
 
 <!-- <iframe src="https://docs.google.com/viewer?url=http://lmcarbonell.com/static/uncontested-candidates/rucho_senate_2_DB_2011.pdf&amp;embedded=true" width="100%" height="500px"></iframe> -->
 
@@ -191,8 +191,8 @@ said Matt Plaus, a senior at UNC-Chapel Hill.</p>
 
   <footer style="bottom:0;margin-top:40px;margin-bottom:15px;">
     <div class="container" style="text-align:center;">
-  By <a href="http://lmcarbonell.com/">Lindsay Carbonell</a>, 2016. Data from <a href=
-  "http://www.ncsbe.gov/">The North Carolina State Board of Elections</a>.
+  By <a href="http://lmcarbonell.com/">Lindsay Carbonell</a>, 2016. Find this project on <a href=
+  "https://github.com/lindsaycarbonell/uncontested-candidates" target="_blank" >Github</a>.
     </div>
   </footer>
 
