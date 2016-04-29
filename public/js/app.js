@@ -2,11 +2,11 @@ var app = angular.module('mainApp', []);
 
 app.controller('MainController', [('$http'), function($http) {
 
-
+//vars for election data
   var _this = this;
   this.all_elections = [];
 
-
+//get elections data for table
   $http.get('js/uncont_elections.json')
     .success(function(allElectionsData){
       _this.all_elections = allElectionsData;
@@ -17,17 +17,16 @@ app.controller('MainController', [('$http'), function($http) {
     });
 
 
+//tab functionality
 this.isChartChosen = true;
 
 this.switchTab = function(){
-
   this.isChartChosen = !this.isChartChosen;
-
 };
 
 
 
-
+//BAR GRAPH
   var margin = {top: 20, right: 20, bottom: 60, left: 40};
   var width = 900 - margin.left - margin.right;
   var height = 350 - margin.top - margin.bottom;
@@ -72,8 +71,6 @@ this.switchTab = function(){
   data.forEach(function(d){
     d.dems = demKeys.map(function(key) { return {value: +d[key]}; });
     d.repubs = repubKeys.map(function(key) { return {value: +d[key]}; });
-
-
   });
 
   scaleX.domain(data.map(function(d) {
@@ -118,13 +115,13 @@ this.switchTab = function(){
         .text("Number of uncontested seats");
 
 
+//REPUBLICAN BARS
+
   var repubs = svg.selectAll('.repubs')
       .data(data)
     .enter().append('g')
       .attr('class', 'repubs')
       .attr('transform', function(d){ return 'translate(' + eval(scaleX(d.year) + scaleX.rangeBand()) +  ',0)';});
-
-
 
   repubs.selectAll('rect')
       .data(function(d) {return d.repubs; })
@@ -142,6 +139,7 @@ this.switchTab = function(){
       .attr("y", function(d){ return scaleY(d.repubs[0].value) + 20; })
       .attr("text-anchor", "middle");
 
+//DEMOCRAT BARS
 
   var dems = svg.selectAll('.dems')
       .data(data)
@@ -160,16 +158,13 @@ this.switchTab = function(){
 
   dems.append("text")
       .text(function(d){ return d.dems[0].value; })
-      .attr("class", function(d){if(d.dems[0].value <=2){return "short-dem"}else { return "tall-dem"}})
+      .attr("class", function(d){if(d.dems[0].value <=2){return "short-dem"}else { return "tall-dem"}}) //fixes issue of labels not fitting on bars
       .attr("x", function(d){ return 20; })
-      .attr("y", function(d){
-        if(d.dems[0].value <=2){
-        return scaleY(d.dems[0].value) - 3;}
-        else {return scaleY(d.dems[0].value) + 20; }})
+      .attr("y", function(d){ if(d.dems[0].value <=2){ return scaleY(d.dems[0].value) - 3;} else {return                          scaleY(d.dems[0].value) + 20; }})
       .attr("text-anchor", "middle");
 
-// var legend = svg.selectAll('g')
-//   .append('text')
+
+//LEGEND
 
 var legend = svg.append('g');
 
@@ -180,7 +175,7 @@ legend.append('rect')
   .attr('y', height + 30)
   .attr('height', 20)
   .attr('width', 20)
-  .attr('fill', '#E91D0E');
+  .attr('fill', '#E91D0E'); //repub red
 
 legend.append('text')
   .attr('class', 'legend')
@@ -194,7 +189,7 @@ legend.append('rect')
   .attr('y', height + 30)
   .attr('height', 20)
   .attr('width', 20)
-  .attr('fill', '#232066');
+  .attr('fill', '#232066'); //dem blue
 
 legend.append('text')
   .attr('class', 'legend')
@@ -206,6 +201,8 @@ legend.append('text')
 
 }]);
 
+
+//PIE CHART
 
 var w = 200;
 var h = 200;
@@ -250,6 +247,7 @@ arcs.append("svg:text").attr("transform", function(d){
     return data[i].label;}
 		);
 
+//pie stats box functionality
 $('.slice').mouseover(function(){
   console.log("mouse over");
 

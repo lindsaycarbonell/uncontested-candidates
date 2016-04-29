@@ -100,6 +100,8 @@ h5{
   font-weight: bold;
 }
 
+#map{ height:325px; }
+
 .nav-tabs{
   font-family:'Open Sans';
   font-size:15px;
