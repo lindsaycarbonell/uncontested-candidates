@@ -84,6 +84,20 @@ h3{
 .tiny-text{
   font-size:10pt;
   margin-top:-5pt;
+  margin-left:15pt;
+  color:#767676;
+}
+
+.byline{
+  text-transform:uppercase;
+}
+
+.by{
+  text-transform: none;
+}
+
+h5{
+  font-weight: bold;
 }
 
 .graph-title{
