@@ -7,7 +7,7 @@ app.controller('MainController', [('$http'), function($http) {
   this.all_elections = [];
 
 
-  $http.get('public/js/uncont_elections.json')
+  $http.get('js/uncont_elections.json')
     .success(function(allElectionsData){
       _this.all_elections = allElectionsData;
       console.log(allElectionsData);
@@ -16,18 +16,6 @@ app.controller('MainController', [('$http'), function($http) {
       console.log("Elections request failed. \n" + msg);
     });
 
-  //path needs to change to change graph
-  var path = "../../assets/uncont_elections.csv";
-  //this.graph_group = "N.C. General Assembly";
-  //
-  // function returnGraphGroup(){
-  //   return "<h1>" + this.graph_group + "</h1>";
-  // };
-
-  this.emptyd3 = function(){
-    $('#chart').empty();
-    console.log("clear");
-  };
 
 this.isChartChosen = true;
 
@@ -50,7 +38,7 @@ this.switchTab = function(){
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-  d3.csv(path, function(err, data) {
+  d3.csv("assets/uncont_elections.csv", function(err, data) {
         if (err) throw error;
 
         var scaleX = d3.scale.ordinal()
@@ -219,11 +207,64 @@ legend.append('text')
 }]);
 
 
+var w = 200;
+var h = 200;
+var r = h/2;
 
 
-app.controller('TableController', [('$http'), function($http) {
+var data = [{"label":"Support HB2", "value":36},
+		          {"label":"Oppose HB2", "value":45},
+		          {"label":"No opinion", "value": 19}];
 
 
+var vis = d3.select('#pie').append("svg:svg").data([data]).attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + r + ")");
+var pie = d3.layout.pie().value(function(d){return d.value;});
+
+// declare an arc generator function
+var arc = d3.svg.arc().outerRadius(r);
+
+// select paths, use arc generator to draw
+var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
+arcs.append("svg:path")
+    .attr("fill", function(d, i){
+        if(d.value == 45){
+        	return "#b22323";
+        }
+        else if (d.value == 36){
+        	return "#4455AB";
+        }
+        else if (d.value == 19){
+        	return "#aaaaaa";
+        }
+    })
+    .attr("d", function (d) {
+
+        return arc(d);
+    });
+
+// add the text
+arcs.append("svg:text").attr("transform", function(d){
+			d.innerRadius = 0;
+			d.outerRadius = r;
+    return "translate(" + arc.centroid(d) + ")";}).attr("text-anchor", "middle").attr("class", "pie-label").text( function(d, i) {
+    return data[i].label;}
+		);
+
+$('.slice').mouseover(function(){
+  console.log("mouse over");
 
 
-}]);
+  if($(this).text() == "Support HB2"){
+      $('.pie-stats').empty();
+      $('.pie-stats').append('36 percent of people support HB2.');
+  }
+  else if($(this).text() == "Oppose HB2"){
+    $('.pie-stats').empty();
+    $('.pie-stats').append('45 percent of people oppose HB2.');
+  }
+  else if($(this).text() == "No opinion"){
+    $('.pie-stats').empty();
+    $('.pie-stats').append('19 percent of people have no opinion on HB2.');
+  }
+
+})

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <head>
-<title>Uncontested Seats</title>
+<title>Uncontested Seats in the N.C. Legislature</title>
 <meta charset='utf-8' />
 <!--favicon-->
-<link rel="shortcut icon" type="image/ico" href="assets/pat.ico" />
+<link rel="shortcut icon" type="image/ico" href="public/assets/" />
 <!--jquery-->
 <script src="public/js/jquery-2.2.0.min.js"></script>
 <!--d3-->
@@ -132,16 +132,16 @@
 <p>The map below shows the most recent redistricted map, which was passed by the NCGA in 2011.</p>
 
 <div id="map"></div>
-
+<br>
 <p>Districts 16, 21, 28 and 32 are some of the more clearly gerrymandered Democratic districts, Jenson said. With the GOP maintaining its supermajority, the Democratic voters are packed into districts to minimize their voting power.</p>
 
 <div class="row">
   <div class="col-lg-1 col-xs-1"></div>
   <div class="col-lg-10 col-xs-10">
-    <img class="mini-map" src="assets/16.png" />
-    <img class="mini-map" src="assets/21.png" />
-    <img class="mini-map" src="assets/28.png" />
-    <img class="mini-map" src="assets/32.png" />
+    <img class="mini-map" src="public/assets/16.png" />
+    <img class="mini-map" src="public/assets/21.png" />
+    <img class="mini-map" src="public/assets/28.png" />
+    <img class="mini-map" src="public/assets/32.png" />
       <p class="tiny-text">Districts 16, 21, 28 and 32 have "tentacles" that pack the Democratic voters together.</p>
   </div>
   <div class="col-lg-1 col-xs-1"></div>
@@ -219,10 +219,6 @@ $(document).ready(function(){
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
-
-  //console.log(geojsonFeatures);
-
-  // L.geoJson(geojsonFeature).addTo(map);
 
 
       var districtStyle = {
@@ -331,7 +327,7 @@ $(document).ready(function(){
 <script src="public/js/app.js"></script>
 <script src="public/js/table.js"></script>
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-<script src="Senate_4326.geojson"></script>
+<script src="public/js/Senate_4326.geojson"></script>
 <!-- <script src="public/js/d3-bar.js"></script> -->
 </body>
 
