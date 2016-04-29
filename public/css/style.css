@@ -5,8 +5,8 @@ body{
   font-family:'Open Sans';
 }
 h1{
-  font-size:30pt;
-  font-weight:800;
+  font-size:48px;
+  font-weight:bold;
 }
 .axis path,
 .axis line {
@@ -60,6 +60,11 @@ g.repubs:hover .tall-repub{
   border: solid 1px #eee;
   border-bottom: solid 1px #ccc;
   padding:20px;
+}
+
+.mini-map{
+  width:20%;
+  display:inline-block;
 }
 
 

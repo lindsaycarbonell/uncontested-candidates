@@ -35,8 +35,9 @@
 <body ng-controller="MainController as main" ng-app="mainApp">
 
 
-
-  <h1 style="text-align:center;">Uncontested Seats in the N.C. General Assembly</h1>
+  <div class="container max-width">
+    <h1>Uncontested seats show power of the GOP-held legislature</h1>
+  </div>
 
   <div id="svg"></div>
 
@@ -50,7 +51,7 @@
           <li><a data-toggle="tab" href="#table" ng-click="main.switchTab()">Table</a></li>
         </ul>
         <div class="row">
-          <h1 class="graph-title">Uncontested Seats in the N.C. General Assembly</h1>
+          <h1 class="graph-title" ng-show="main.isChartChosen">Uncontested Seats in the N.C. General Assembly</h1>
 
         </div>
       </div>
@@ -122,6 +123,11 @@
 <div id="map"></div>
 
 <p>Districts 14, 15, 17, 21 and 19 are some of the clearly gerrymandered districts, Jenson said. With the GOP maintaining their supermajority, the Democratic voters are packed into districts to minimize their voting power.</p>
+
+<img class="mini-map" src="assets/16.png" />
+<img class="mini-map" src="assets/21.png" />
+<img class="mini-map" src="assets/28.png" />
+<img class="mini-map" src="assets/32.png" />
 
 <p>“You can say even before filing deadlines what party is going to win,” Jenson said of the gerrymandered districts.</p>
 
@@ -224,57 +230,57 @@ $(document).ready(function(){
         style: function(feature) {
 
           switch (feature.properties.District) {
-              case 3: return {color: "blue",
-                "weight": 2,
+              case 3: return {"color": "blue",
+                "weight": 0,
                 "opacity": 0.65};
-              case 4: return {color: "blue",
-                "weight": 2,
+              case 4: return {"color": "blue",
+                "weight": 0,
                 "opacity": 0.65};
-              case 5: return {color: "blue",
-                "weight": 2,
+              case 5: return {"color": "blue",
+                "weight": 0,
                 "opacity": 0.65};
-              case 13: return {color: "blue",
-                "weight": 2,
+              case 13: return {"color": "blue",
+                "weight": 0,
                 "opacity": 0.65};
-              case 14: return {color: "blue",
-                "weight": 2,
+              case 14: return {"color": "#dd0eb7",
+                "weight": 0,
+                "fillOpacity": 1};
+              case 16: return {"color": "#607dde",
+                "weight": 0,
+                "fillOpacity": 1};
+              case 20: return {"color": "blue",
+                "weight": 0,
                 "opacity": 0.65};
-              case 16: return {color: "blue",
-                "weight": 2,
+              case 21: return {"color": "#50cd7c",
+                "weight": 0,
+                "fillOpacity": 1};
+              case 22: return {"color": "blue",
+                "weight": 0,
                 "opacity": 0.65};
-              case 20: return {color: "blue",
-                "weight": 2,
+              case 23: return {"color": "blue",
+                "weight": 0,
                 "opacity": 0.65};
-              case 21: return {color: "blue",
-                "weight": 2,
+              case 28: return {"color": "#ec8c97",
+                "weight": 0,
+                "fillOpacity": 1};
+              case 32: return {"color": "#41ea55",
+                "weight": 0,
+                "fillOpacity": 1};
+              case 37: return {"color": "blue",
+                "weight": 0,
                 "opacity": 0.65};
-              case 22: return {color: "blue",
-                "weight": 2,
+              case 38: return {"color": "blue",
+                "weight": 0,
                 "opacity": 0.65};
-              case 23: return {color: "blue",
-                "weight": 2,
+              case 40: return {"color": "blue",
+                "weight": 0,
                 "opacity": 0.65};
-              case 28: return {color: "blue",
-                "weight": 2,
-                "opacity": 0.65};
-              case 32: return {color: "blue",
-                "weight": 2,
-                "opacity": 0.65};
-              case 37: return {color: "blue",
-                "weight": 2,
-                "opacity": 0.65};
-              case 38: return {color: "blue",
-                "weight": 2,
-                "opacity": 0.65};
-              case 40: return {color: "blue",
-                "weight": 2,
-                "opacity": 0.65};
-              case 49: return {color: "blue",
-                "weight": 2,
+              case 49: return {"color": "blue",
+                "weight": 0,
                 "opacity": 0.65};
               default: return {
                 "color": "red",
-                "weight": 2,
+                "weight": 0,
                 "opacity": 0.65 };
             }
           }
