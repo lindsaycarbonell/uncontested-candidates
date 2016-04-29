@@ -1,11 +1,237 @@
-<html>
-    <head>
-          <title>583 Final Project</title>
+<!DOCTYPE html>
+<head>
+<title>Uncontested Seats</title>
+<meta charset='utf-8' />
+<!--favicon-->
+<link rel="shortcut icon" type="image/ico" href="assets/pat.ico" />
+<!--jquery-->
+<script src="js/jquery-2.2.0.min.js"></script>
+<!--d3-->
+<script src="js/d3.min.js"></script>
+<!--bootstrap js-->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" href="css/styles.css" />
- <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
-    </head>
+<!--angular js-->
+<script src="js/angular.js"></script>
+<!--bootstrap-->
+<link href="css/bootstrap.css" rel="stylesheet">
+<!--font awesome-->
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<!--angular-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js" charset="utf-8"></script>
+<!--leaflet-->
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+
+<!--my stylesheet-->
+<link rel="stylesheet" href="css/style.css" />
+
+<style>
+#map{ height:325px; }
+</style>
+
+</head>
+
+<body ng-controller="MainController as main" ng-app="mainApp">
 
 
-    </body>
+
+  <h1 style="text-align:center;">Uncontested Seats in the N.C. General Assembly</h1>
+
+  <div id="svg"></div>
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-lg-1 col-xs-1"></div>
+      <div class="col-lg-10 col-xs-10">
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#chart">Chart</a></li>
+          <li><a data-toggle="tab" href="#table">Table</a></li>
+        </ul>
+        <div class="row">
+          <h1 class="graph-title">Uncontested Seats in the <span ng-bind="{{main.graph_group}}"></span></h1>
+
+        </div>
+      </div>
+      <div class="col-lg-1 col-xs-1"></div>
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-1 col-xs-1"></div>
+      <div id="chart" class="append col-lg-10 col-xs-10 tab-pane fade in active"></div>
+      <div id="table" class="col-lg-10 col-xs-10 tab-pane fade">table</div>
+      <div class="col-lg-1 col-xs-1"></div>
+    </div>
+  </div>
+
+<div class="container max-width">
+  <br>
+  <h2>Facts</h2>
+  <p>About <span class="strong">35 percent</span> of the N.C. General Assembly seats up for elections between 2000 and 2012 were uncontested.</p>
+  <p class="tiny-text">About 29 percent of N.C. Senate seats / About 38 percent of the N.C. House seats </p>
+
+  <p><span class="strong">62 candidates</span> in the N.C. General Assembly elections between 2000 and 2012 have been uncontested 3 or more times.</p>
+
+<!-- <iframe src="https://docs.google.com/viewer?url=http://lmcarbonell.com/static/uncontested-candidates/rucho_senate_2_DB_2011.pdf&amp;embedded=true" width="100%" height="500px"></iframe> -->
+<div id="map"></div>
+
+  <!-- <h2>What does it mean for a seat to be uncontested?</h2>
+    <p>The preceding graph shows the uncontested Democrat and Republican seats in the N.C. Senate for every general election since 2006. Due to gerrymandering, the practice of redistricting to give one party an advantage over another, uncontested seats have been commonplace for every general election. Because the party makeup of each district when gerrymandered is so skewed, those candidates are virtually impossible to defeat. Thus, they run unopposed.
+    </p>
+    <p>
+      It is still unclear what the direct effect is of the number of uncontested seats in each election on policy-making, but one matter is clear: without a contest in a given district, voters are deprived of their power to make a choice about who represents them in state government.
+    </p> -->
+
+  </div>
+
+  <footer style="bottom:0;margin-top:40px;margin-bottom:15px;">
+    <div class="container" style="text-align:center;">
+  By <a href="http://lmcarbonell.com/">Lindsay Carbonell</a>, 2016. Data from <a href=
+  "http://www.ncsbe.gov/">The North Carolina State Board of Elections</a>.
+    </div>
+  </footer>
+
+
+
+  <!--stuff for grid test--->
+  <!-- <header>
+  <h4 id="grid-ref">roll-over grid</h4>
+</header> -->
+
+
+
+
+
+
+
+
+<script>
+$(document).ready(function(){
+
+
+  var map = L.map('map').setView([35.216173, -78.936768], 7);
+
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  //console.log(geojsonFeatures);
+
+  // L.geoJson(geojsonFeature).addTo(map);
+
+
+      var districtStyle = {
+          "color": "#ff7800",
+          "weight": 2,
+          "opacity": 0.65
+      };
+
+      var newStyle = {
+        "color":"blue",
+        "weight": 2
+      };
+
+      function onEachFeature(feature, layer) {
+        layer.setStyle(districtStyle);
+
+
+      };
+
+      makeDistricts();
+      styleDistricts();
+
+      function makeDistricts(){
+
+        L.geoJson(geojsonFeatures, {
+            onEachFeature: onEachFeature
+          }).addTo(map);
+      }; //make
+
+      function styleDistricts(){
+        L.geoJson(geojsonFeatures, {
+        style: function(feature) {
+
+          switch (feature.properties.District) {
+              case 3: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 4: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 5: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 13: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 14: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 16: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 20: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 21: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 22: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 23: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 28: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 32: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 37: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 38: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 40: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              case 49: return {color: "blue",
+                "weight": 2,
+                "opacity": 0.65};
+              default: return {
+                "color": "red",
+                "weight": 2,
+                "opacity": 0.65 };
+            }
+          }
+        }).addTo(map);
+      }; //style
+
+      // Disable drag and zoom handlers.
+      map.dragging.disable();
+      map.touchZoom.disable();
+      map.doubleClickZoom.disable();
+      map.scrollWheelZoom.disable();
+      map.keyboard.disable();
+
+      // Disable tap handler, if present.
+      if (map.tap) map.tap.disable();
+
+
+});
+
+</script>
+<script src="js/app.js"></script>
+<script src="conv.js"></script>
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+<script src="Senate_4326.geojson"></script>
+<!-- <script src="public/js/d3-bar.js"></script> -->
+</body>
+
 </html>

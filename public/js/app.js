@@ -2,8 +2,29 @@ var app = angular.module('mainApp', []);
 
 app.controller('MainController', [('$http'), function($http) {
 
+
+
   //path needs to change to change graph
   var path = "../../assets/uncont_elections.csv";
+  //this.graph_group = "N.C. General Assembly";
+  //
+  // function returnGraphGroup(){
+  //   return "<h1>" + this.graph_group + "</h1>";
+  // };
+
+  this.emptyd3 = function(){
+    $('#chart').empty();
+    console.log("clear");
+  };
+
+this.isChartChosen = true;
+
+this.switchTab = function(){
+
+  this.isChartChosen = !this.isChartChosen;
+
+};
+
 
 
 
@@ -96,6 +117,7 @@ app.controller('MainController', [('$http'), function($http) {
         .style("text-anchor", "end")
         .text("Number of uncontested seats");
 
+
   var repubs = svg.selectAll('.repubs')
       .data(data)
     .enter().append('g')
@@ -182,14 +204,25 @@ legend.append('text')
 
   }); //end data function
 
+}]);
 
 
 
 
+app.controller('TableController', [('$http'), function($http) {
+
+  var _this = this;
+  this.all_elections = [];
 
 
-
-
+$http.get('public/js/uncont_elections.json')
+    .success(function(allElectionsData){
+      _this.all_elections = allElectionsData;
+      console.log(allElectionsData);
+    })
+    .error(function(msg){
+      console.log("Elections request failed. \n" + msg);
+    });
 
 
 }]);

@@ -20,7 +20,7 @@ h1{
 }
 
 .max-width{
-  max-width:1100px;
+  max-width:900px;
 }
 
 
@@ -64,13 +64,27 @@ g.repubs:hover .tall-repub{
 
 
 p{
-  font-size:15pt;
+  font-size:14px;
+  line-height:22.4px;
   text-align:left;
+}
+
+h3{
+  font-size:24px;
+  line-height: 24px;
+  text-align: left;
+  font-weight: bold;
 }
 
 .tiny-text{
   font-size:10pt;
   margin-top:-5pt;
+}
+
+.graph-title{
+  text-align:center;
+  font-family:'Open Sans';
+  font-size:25pt;
 }
 
 .strong{

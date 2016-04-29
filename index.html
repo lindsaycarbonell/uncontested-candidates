@@ -18,7 +18,7 @@
 <!--font awesome-->
 <link rel="stylesheet" href="public/css/font-awesome.min.css">
 <!--angular-->
-<script src="public/js/app.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js" charset="utf-8"></script>
 <!--leaflet-->
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
@@ -38,40 +38,114 @@
 
   <h1 style="text-align:center;">Uncontested Seats in the N.C. General Assembly</h1>
 
+  <div id="svg"></div>
 
   <div class="container">
+
     <div class="row">
       <div class="col-lg-1 col-xs-1"></div>
       <div class="col-lg-10 col-xs-10">
         <ul class="nav nav-tabs">
-          <li class="active"><a data-toggle="tab" href="#chart">Chart</a></li>
-          <li><a data-toggle="tab" href="#table">Table</a></li>
+          <li class="active"><a data-toggle="tab" ng-click="main.switchTab()" href="#chart">Chart</a></li>
+          <li><a data-toggle="tab" href="#table" ng-click="main.switchTab()">Table</a></li>
         </ul>
+        <div class="row">
+          <h1 class="graph-title">Uncontested Seats in the N.C. General Assembly</h1>
+
+        </div>
       </div>
       <div class="col-lg-1 col-xs-1"></div>
     </div>
   </div>
 
 
-  <div class="container">
+  <div class="container" ng-controller="TableController as table" ng-app="tableApp">
     <div class="row">
       <div class="col-lg-1 col-xs-1"></div>
-      <div id="chart" class="append col-lg-10 col-xs-10 tab-pane fade in active"></div>
-      <div id="table" class="col-lg-10 col-xs-10 tab-pane fade">table</div>
+      <div id="chart" ng-show="main.isChartChosen" class="append col-lg-10 col-xs-10 tab-pane fade in active"></div>
+      <div id="table" class="col-lg-10 col-xs-10 tab-pane fade">
+        <table id="elections-table" class="table">
+          <thead>
+            <th>Election Year <i class="fa fa-arrows-v"></i></th>
+            <th>Uncontested Democrat Seats</th>
+            <th>Uncontested Republican Seats</th>
+          </thead>
+
+          <tr ng-repeat="elections in main.all_elections">
+            <td>{{elections.year}}</td>
+            <td>{{elections.office}}</td>
+            <td>{{elections.uncont_dems}}</td>
+            <td>{{elections.uncont_repubs}}</td>
+          </tr>
+
+      </table>
+
+      </div>
       <div class="col-lg-1 col-xs-1"></div>
     </div>
   </div>
 
 <div class="container max-width">
-  <br>
-  <h2>Facts</h2>
-  <p>About <span class="strong">35 percent</span> of the N.C. General Assembly seats up for elections between 2000 and 2012 were uncontested.</p>
-  <p class="tiny-text">About 29 percent of N.C. Senate seats / About 38 percent of the N.C. House seats </p>
 
-  <p><span class="strong">62 candidates</span> in the N.C. General Assembly elections between 2000 and 2012 have been uncontested 3 or more times.</p>
+<p> In the past decade, the number of uncontested seats — those guaranteed to one candidate before voting even begins — in the N.C. General Assembly has exploded from 41 to 67 seats.</p>
+
+<p> With 40 uncontested GOP seats to 12 uncontested Democrat seats in 2010, it’s no surprise that the GOP won the supermajority of the NCGA — And then immediately redistricted the state in their party’s favor through gerrymandering. </p>
+
+<p> “We learn in fifth grade about checks and balances in our system and at this point in NC there just about are no checks and balances,” said Tom Jenson, spokesperson from the left-leaning nonprofit Public Policy Polling.</p>
+
+<p> Gerrymandering largely set the fate for elections in North Carolina, but even if a challenger was willing to run in a gerrymandered district, there are other obstacles that stand in their way.</p>
+
+<p> “These races are becoming more and more expensive,” said Dave Miranda, spokesperson for the NCDP. He also pointed to voter apathy as a deterrent to new challengers.</p>
+
+<p> But even a decade ago, when gerrymandering was still a part of the political process, there were less uncontested seats — so what happened?</p>
+
+<h3>A tale of two parties</h3>
+
+<p> In 2010, a backlash against Democrats became a pivotal year for Republicans. With the unpopularity of the Affordable Care Act (“Obamacare”), then-Governor Bev Perdue, and President Obama himself, Republicans had a huge opportunity.</p>
+
+<p> “Republicans really put an emphasis, I think, in 2010 to get as many candidates as possible so they weren’t leaving any stone unturned,” said Tom Jenson, a spokesperson from the left-leaning nonprofit Public Policy Polling.</p>
+
+<p> That emphasis caused a drop from 40 uncontested Democratic seats in 2008 to just 12 in 2010.</p>
+
+<p>And the party lines only became more distinct from then on. With national politics driving public opinion, thick party lines became the norm, Jenson said.</p>
+
+<p> “I don’t think it’s his fault…[but] President Obama is just really polarizing along party lines,” he said. “It’s hard for people to really get past those labels.”</p>
+
+<p>And the lines between parties weren’t the only ones being drawn.</p>
+
+<h3>The tentacles of gerrymandering</h3>
+
+<p> Gerrymandering, the practice of redrawing districts to favor specific parties, is the number one cause of uncontested seats.</p>
+
+<p>The map below shows the most recent redistricted map, which was passed by the NCGA in 2011.</p>
+
+<div id="map"></div>
+
+<p>Districts 14, 15, 17, 21 and 19 are some of the clearly gerrymandered districts, Jenson said. With the GOP maintaining their supermajority, the Democratic voters are packed into districts to minimize their voting power.</p>
+
+<p>“You can say even before filing deadlines what party is going to win,” Jenson said of the gerrymandered districts.</p>
+
+<p>Still, <a href="http://www.publicpolicypolling.com/main/2016/02/north-carolinians-want-nonpartisan-redistricting.html">over half of voters</a> want to see nonpartisan redistricting processes put in place, and there even seems to be a bipartisan consensus that agrees.</p>
+
+
+<h3>The path to win</h3>
+
+<p>Democrats statewide would have to win the legislative ballot by 15 points to get back control of the legislature, Jenson said.</p>
+
+<p>“There’s almost no world where that could happen,” he said. Democrats are currently only up by 3 points.</p>
+
+<p>But for Democrats, the recent events in state and national politics could prove to be the light at the end of the tunnel.</p>
+
+<p>The recent passing of House Bill 2, which limits protections for LGBT people and mandates that transgender people must use the bathroom of their biological sex, has seen an incredible backlash.</p>
+
+<p>Companies, artists, and even nations have expressed their opposition to the bill, bringing the conservative NCGA to the national spotlight.</p>
+
+<p>And what may be the Democrats’ biggest hope to flip seats? Donald Trump.</p>
+
+<p>“There’s going to be a lot of people coming out to vote against Trump, and that could put a lot of seats into play,” Miranda said.</p>
 
 <!-- <iframe src="https://docs.google.com/viewer?url=http://lmcarbonell.com/static/uncontested-candidates/rucho_senate_2_DB_2011.pdf&amp;embedded=true" width="100%" height="500px"></iframe> -->
-<div id="map"></div>
+
 
   <!-- <h2>What does it mean for a seat to be uncontested?</h2>
     <p>The preceding graph shows the uncontested Democrat and Republican seats in the N.C. Senate for every general election since 2006. Due to gerrymandering, the practice of redistricting to give one party an advantage over another, uncontested seats have been commonplace for every general election. Because the party makeup of each district when gerrymandered is so skewed, those candidates are virtually impossible to defeat. Thus, they run unopposed.
@@ -207,11 +281,22 @@ $(document).ready(function(){
         }).addTo(map);
       }; //style
 
+      // Disable drag and zoom handlers.
+      map.dragging.disable();
+      map.touchZoom.disable();
+      map.doubleClickZoom.disable();
+      map.scrollWheelZoom.disable();
+      map.keyboard.disable();
+
+      // Disable tap handler, if present.
+      if (map.tap) map.tap.disable();
 
 
 });
 
 </script>
+<script src="public/js/app.js"></script>
+<script src="public/js/table.js"></script>
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 <script src="Senate_4326.geojson"></script>
 <!-- <script src="public/js/d3-bar.js"></script> -->

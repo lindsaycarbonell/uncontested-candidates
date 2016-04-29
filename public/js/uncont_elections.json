@@ -1,0 +1,44 @@
+[
+  {
+    "year": 2000,
+    "office": "NCGA",
+    "uncont_dems": 23,
+    "uncont_repubs": 18
+  },
+  {
+    "year": 2002,
+    "office": "NCGA",
+    "uncont_dems": 19,
+    "uncont_repubs": 15
+  },
+  {
+    "year": 2004,
+    "office": "NCGA",
+    "uncont_dems": 33,
+    "uncont_repubs": 33
+  },
+  {
+    "year": 2006,
+    "office": "NCGA",
+    "uncont_dems": 44,
+    "uncont_repubs": 41
+  },
+  {
+    "year": 2008,
+    "office": "NCGA",
+    "uncont_dems": 40,
+    "uncont_repubs": 30
+  },
+  {
+    "year": 2010,
+    "office": "NCGA",
+    "uncont_dems": 12,
+    "uncont_repubs": 40
+  },
+  {
+    "year": 2012,
+    "office": "NCGA",
+    "uncont_dems": 31,
+    "uncont_repubs": 36
+  }
+]
